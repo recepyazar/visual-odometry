@@ -7,7 +7,7 @@ class DatasetReaderKITTI:
     def __init__(self, datasetPath, scaling=1.0):
         __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
         self._datasetPath = os.path.join(__location__, datasetPath)
-        self._imagesPath = os.path.join(self._datasetPath, "image_2")
+        self._imagesPath = os.path.join(self._datasetPath, "image_3")
         self._numFrames = len([x for x in os.listdir(self._imagesPath) if x.endswith(".png")])
         self._scaling = scaling
 
@@ -39,7 +39,7 @@ class DatasetReaderKITTI:
             return K
 
     def readGroundtuthPosition(self, frameId):
-        groundtruthFile = os.path.join(self._datasetPath, "poses.txt")
+        groundtruthFile = os.path.join(self._datasetPath, "01.txt")
         with open(groundtruthFile) as f:
             lines = f.readlines()
 
