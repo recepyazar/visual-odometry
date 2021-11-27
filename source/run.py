@@ -7,11 +7,22 @@ from kitti_reader import DatasetReaderKITTI
 from feature_tracking import FeatureTracker
 from utils import drawFrameFeatures, updateTrajectoryDrawing, savePly
 
+# def plot_errors(errorsx,errorsy,errorsz,frame_size):
+#     X = np.arange(0, frame_size ,1)
+#     plt.plot(X,errorsx,color='r', label='X')
+#     plt.plot(X,errorsy,color='g', label='Y')
+#     plt.plot(X,errorsz,color='b', label='Z')
+#     plt.xlabel("Frame Number")
+#     plt.ylabel("Error")
+#     plt.title("Errors in dimensions")
+#     plt.legend()
+#     plt.show()
 if __name__ == "__main__":                      
     tracker = FeatureTracker()
     detector = cv2.xfeatures2d.SIFT_create()
     #detector = cv2.GFTTDetector_create()
     #detector = cv2.ORB_create()
+    #detector = cv2.FastFeatureDetector_create()
     dataset_reader = DatasetReaderKITTI("D:/01")
 
     K = dataset_reader.readCameraMatrix()
@@ -23,6 +34,9 @@ if __name__ == "__main__":
 
     plt.show()
 
+    errors_x = []
+    errors_y = []
+    errors_z = []
     # Process next frames
     for frame_no in range(1, 1000):
         curr_frame_BGR = dataset_reader.readFrame(frame_no)
@@ -54,8 +68,14 @@ if __name__ == "__main__":
 
         kitti_positions.append(kitti_pos)
         track_positions.append(camera_pos)
-        error = np.sqrt((kitti_pos[0]-camera_pos[0])**2+(kitti_pos[2]-camera_pos[2])**2)
-        print("error: ",error)
+        # error = np.sqrt((kitti_pos[0]-camera_pos[0])**2+(kitti_pos[2]-camera_pos[2])**2)
+        # error_x = kitti_pos[0]-camera_pos[0]
+        # error_y = kitti_pos[2]-camera_pos[2]
+        # error_z = kitti_pos[1]-camera_pos[1]
+        # errors_x.append(error_x)
+        # errors_y.append(error_y)
+        # errors_z.append(error_z)
+        # print("error: ",error)
         updateTrajectoryDrawing(np.array(track_positions), np.array(kitti_positions))
         drawFrameFeatures(curr_frame, prev_points, curr_points, frame_no)
 
@@ -64,5 +84,6 @@ if __name__ == "__main__":
            
         prev_points, prev_frame_BGR = curr_points, curr_frame_BGR
     plt.savefig("sa.png")
+    # plot_errors(errors_x,errors_y,errors_z,999)
     cv2.destroyAllWindows()
 
