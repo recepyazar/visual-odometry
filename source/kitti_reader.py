@@ -39,7 +39,7 @@ class DatasetReaderKITTI:
             return K
 
     def readGroundtuthPosition(self, frameId):
-        groundtruthFile = os.path.join(self._datasetPath, "01.txt")
+        groundtruthFile = os.path.join(self._datasetPath, "00.txt")
         with open(groundtruthFile) as f:
             lines = f.readlines()
 
